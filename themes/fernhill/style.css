@@ -1,0 +1,226 @@
+/*
+Theme Name:        Fernhill Help Center
+Description:       Block theme for the Fernhill help center: search, topics and help articles.
+Version:           1.0.0
+Requires at least: 6.9
+Requires PHP:      8.1
+License:           GPL-2.0-or-later
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:       fernhill
+*/
+
+/* Header: "Help Center" badge next to the site title. */
+.fh-badge {
+	margin: 0;
+	padding: 2px 10px;
+	border-radius: 999px;
+	background: var(--wp--preset--color--brand-soft);
+	color: var(--wp--preset--color--brand-dark);
+	font-size: 0.8rem;
+	font-weight: 600;
+}
+
+/* Announcement pill above the home page heading. */
+.fh-announcement {
+	margin: 0;
+	font-size: 0.9rem;
+}
+
+.fh-announcement a {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 5px 14px 5px 5px;
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 999px;
+	background: var(--wp--preset--color--base);
+	color: var(--wp--preset--color--ink);
+	text-decoration: none;
+}
+
+.fh-announcement a:hover {
+	border-color: var(--wp--preset--color--brand);
+}
+
+.fh-announcement span {
+	flex-shrink: 0;
+	padding: 2px 10px;
+	border-radius: 999px;
+	background: var(--wp--preset--color--brand);
+	color: var(--wp--preset--color--base);
+	font-size: 0.8rem;
+	font-weight: 600;
+}
+
+@media (max-width: 600px) {
+	.fh-announcement a {
+		border-radius: 14px;
+		text-align: left;
+	}
+}
+
+/* Search box: a single rounded field with the button inside. */
+.fh-search {
+	width: 100%;
+	max-width: 600px;
+	margin-inline: auto;
+}
+
+.fh-search .wp-block-search__inside-wrapper {
+	padding: 6px;
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 999px;
+	background: var(--wp--preset--color--base);
+	box-shadow: 0 6px 24px rgba(28, 43, 34, 0.08);
+}
+
+.fh-search .wp-block-search__input {
+	padding: 10px 18px;
+	border: 0;
+	background: transparent;
+	font-size: 1.05rem;
+}
+
+.fh-search .wp-block-search__input:focus {
+	outline: none;
+}
+
+.fh-search .wp-block-search__button {
+	margin: 0;
+	padding: 10px 24px;
+	border-radius: 999px;
+}
+
+.fh-search--inline {
+	max-width: var(--wp--style--global--content-size);
+}
+
+.fh-popular a {
+	color: inherit;
+}
+
+/* Topic cards on the home page. */
+.fh-topics {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: 20px;
+}
+
+.fh-topic {
+	display: block;
+	padding: 22px;
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 14px;
+	background: var(--wp--preset--color--base);
+	color: inherit;
+	text-decoration: none;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.fh-topic:hover,
+.fh-topic:focus-visible {
+	border-color: var(--wp--preset--color--brand);
+	box-shadow: 0 8px 24px rgba(28, 43, 34, 0.08);
+	transform: translateY(-2px);
+}
+
+.fh-topic__name {
+	display: block;
+	color: var(--wp--preset--color--ink);
+	font-size: 1.1rem;
+	font-weight: 700;
+}
+
+.fh-topic__description {
+	display: block;
+	margin-top: 6px;
+	color: var(--wp--preset--color--muted);
+	font-size: 0.95rem;
+}
+
+.fh-topic__count {
+	display: block;
+	margin-top: 14px;
+	color: var(--wp--preset--color--brand);
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+/* "Recently updated" cards on the home page. */
+.fh-cards .wp-block-post {
+	padding: 20px;
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 14px;
+	background: var(--wp--preset--color--base);
+}
+
+.fh-cards .wp-block-post-title {
+	margin: 0 0 6px;
+}
+
+.fh-cards .wp-block-post-title a,
+.fh-article-list .wp-block-post-title a {
+	color: var(--wp--preset--color--ink);
+	text-decoration: none;
+}
+
+.fh-cards .wp-block-post-title a:hover,
+.fh-article-list .wp-block-post-title a:hover {
+	color: var(--wp--preset--color--brand);
+	text-decoration: underline;
+}
+
+.fh-cards .wp-block-post-excerpt__excerpt,
+.fh-article-list .wp-block-post-excerpt__excerpt {
+	margin: 0;
+}
+
+/* Article lists on archive, topic and search pages. */
+.fh-article-list .wp-block-post {
+	padding: 18px 0;
+	border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.fh-article-list .wp-block-post-title {
+	margin: 0 0 4px;
+}
+
+/* Breadcrumbs and related articles on article pages. */
+.fh-breadcrumbs {
+	color: var(--wp--preset--color--muted);
+	font-size: 0.9rem;
+}
+
+.fh-breadcrumbs a {
+	color: inherit;
+}
+
+.fh-breadcrumbs span[aria-hidden] {
+	margin: 0 8px;
+}
+
+.fh-meta {
+	margin: 0;
+	color: var(--wp--preset--color--muted);
+	font-size: 0.9rem;
+}
+
+.fh-related h2 {
+	margin-bottom: 8px;
+	font-size: 1.2rem;
+}
+
+.fh-related ul {
+	margin: 0 0 40px;
+	padding: 0;
+	list-style: none;
+}
+
+.fh-related li {
+	padding: 10px 0;
+	border-bottom: 1px solid var(--wp--preset--color--line);
+}
+
+.fh-related a {
+	text-decoration: none;
+}

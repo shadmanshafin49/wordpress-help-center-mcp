@@ -1,0 +1,64 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","align":"full","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"default"}} -->
+<main class="wp-block-group alignfull">
+	<!-- wp:group {"align":"full","backgroundColor":"brand-soft","style":{"spacing":{"padding":{"top":"80px","bottom":"80px"},"blockGap":"18px"}},"layout":{"type":"constrained","contentSize":"720px"}} -->
+	<div class="wp-block-group alignfull has-brand-soft-background-color has-background" style="padding-top:80px;padding-bottom:80px">
+		<!-- wp:paragraph {"align":"center","className":"fh-announcement"} -->
+		<p class="has-text-align-center fh-announcement"><a href="/ai/"><span>New</span> This help center is also an MCP server for AI assistants. See it in action →</a></p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:heading {"textAlign":"center","level":1} -->
+		<h1 class="wp-block-heading has-text-align-center">How can we help?</h1>
+		<!-- /wp:heading -->
+
+		<!-- wp:paragraph {"align":"center","textColor":"muted","fontSize":"medium"} -->
+		<p class="has-text-align-center has-muted-color has-text-color has-medium-font-size">Answers about orders, delivery, returns and your Fernhill account.</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:search {"label":"Search the help center","showLabel":false,"placeholder":"Search for answers, e.g. refund","buttonText":"Search","className":"fh-search"} /-->
+
+		<!-- wp:paragraph {"align":"center","className":"fh-popular","textColor":"muted","fontSize":"small"} -->
+		<p class="has-text-align-center fh-popular has-muted-color has-text-color has-small-font-size">Popular: <a href="/?s=refund">refunds</a> · <a href="/?s=tracking">order tracking</a> · <a href="/?s=password">password reset</a></p>
+		<!-- /wp:paragraph -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"64px","bottom":"24px"}}},"layout":{"type":"constrained","contentSize":"1120px"}} -->
+	<div class="wp-block-group alignfull" style="padding-top:64px;padding-bottom:24px">
+		<!-- wp:heading -->
+		<h2 class="wp-block-heading">Browse by topic</h2>
+		<!-- /wp:heading -->
+
+		<!-- wp:shortcode -->
+		[fernhill_topics]
+		<!-- /wp:shortcode -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"40px","bottom":"24px"}}},"layout":{"type":"constrained","contentSize":"1120px"}} -->
+	<div class="wp-block-group alignfull" style="padding-top:40px;padding-bottom:24px">
+		<!-- wp:heading -->
+		<h2 class="wp-block-heading">Recently updated</h2>
+		<!-- /wp:heading -->
+
+		<!-- wp:query {"queryId":1,"query":{"perPage":6,"pages":0,"offset":0,"postType":"help_article","order":"desc","orderBy":"modified","inherit":false},"className":"fh-cards"} -->
+		<div class="wp-block-query fh-cards">
+			<!-- wp:post-template {"layout":{"type":"grid","minimumColumnWidth":"18rem"}} -->
+				<!-- wp:post-title {"isLink":true,"level":3,"fontSize":"medium"} /-->
+				<!-- wp:post-excerpt {"excerptLength":24,"textColor":"muted","fontSize":"small"} /-->
+			<!-- /wp:post-template -->
+		</div>
+		<!-- /wp:query -->
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"40px","bottom":"80px"}}},"layout":{"type":"constrained","contentSize":"1120px"}} -->
+	<div class="wp-block-group alignfull" style="padding-top:40px;padding-bottom:80px">
+		<!-- wp:pattern {"slug":"fernhill/contact-cta"} /-->
+	</div>
+	<!-- /wp:group -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

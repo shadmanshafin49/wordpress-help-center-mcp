@@ -1,0 +1,29 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"40px","bottom":"72px"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group" style="padding-top:40px;padding-bottom:72px">
+	<!-- wp:shortcode -->
+	[fernhill_breadcrumbs]
+	<!-- /wp:shortcode -->
+
+	<!-- wp:post-title {"level":1} /-->
+
+	<!-- wp:shortcode -->
+	[fernhill_updated]
+	<!-- /wp:shortcode -->
+
+	<!-- wp:post-content {"align":"full","layout":{"type":"constrained"}} /-->
+
+	<!-- wp:separator {"style":{"spacing":{"margin":{"top":"48px","bottom":"32px"}}}} -->
+	<hr class="wp-block-separator has-alpha-channel-opacity" style="margin-top:48px;margin-bottom:32px"/>
+	<!-- /wp:separator -->
+
+	<!-- wp:shortcode -->
+	[fernhill_related]
+	<!-- /wp:shortcode -->
+
+	<!-- wp:pattern {"slug":"fernhill/contact-cta"} /-->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

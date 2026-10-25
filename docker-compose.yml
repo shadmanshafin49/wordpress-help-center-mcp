@@ -1,0 +1,85 @@
+# Local environment: WordPress + MariaDB, plus a WP-CLI container for setup and admin tasks.
+#
+#   docker compose up -d                                      start the site (http://localhost:8888)
+#   docker compose run --rm cli sh /project/setup/setup.sh    one-time setup (safe to re-run)
+#   docker compose run --rm cli wp <command>                  any WP-CLI command
+#
+# The defaults suit a local site. To deploy, override them in .env (see "Deployment" in the README).
+name: help-center-mcp
+
+x-wordpress-env: &wordpress-env
+  WORDPRESS_DB_HOST: db
+  WORDPRESS_DB_NAME: wordpress
+  WORDPRESS_DB_USER: wordpress
+  WORDPRESS_DB_PASSWORD: wordpress
+  WORDPRESS_DEBUG: ${WORDPRESS_DEBUG:-1}
+  WORDPRESS_CONFIG_EXTRA: |
+    // Application passwords require HTTPS unless the site is marked as a local environment.
+    define( 'WP_ENVIRONMENT_TYPE', '${WP_ENVIRONMENT_TYPE:-local}' );
+    // Log notices to wp-content/debug.log instead of printing them into JSON responses.
+    define( 'WP_DEBUG_LOG', true );
+    define( 'WP_DEBUG_DISPLAY', false );
+
+services:
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: wordpress
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  wordpress:
+    image: wordpress:7.1-php8.3-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${HTTP_PORT:-8888}:80"
+    environment:
+      <<: *wordpress-env
+      # Optional: turns on the live "Ask the assistant" demo on the AI & MCP page.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    volumes:
+      - wp_data:/var/www/html
+      - ./plugins/help-center-mcp:/var/www/html/wp-content/plugins/help-center-mcp
+      - ./themes/fernhill:/var/www/html/wp-content/themes/fernhill
+
+  cli:
+    image: wordpress:cli-php8.3
+    profiles: ["cli"]
+    user: "33:33" # Same user ID as the web server (www-data), so file permissions match.
+    depends_on:
+      db:
+        condition: service_healthy
+      wordpress:
+        condition: service_started
+    environment:
+      <<: *wordpress-env
+      SITE_URL: ${SITE_URL:-http://localhost:8888}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-password}
+      WP_CLI_CACHE_DIR: /tmp/wp-cli-cache
+    volumes:
+      - wp_data:/var/www/html
+      - ./plugins/help-center-mcp:/var/www/html/wp-content/plugins/help-center-mcp
+      - ./themes/fernhill:/var/www/html/wp-content/themes/fernhill
+      - .:/project
+
+  # Optional PHP dependencies for the plugin: docker compose run --rm composer install
+  composer:
+    image: composer:2
+    profiles: ["cli"]
+    working_dir: /app
+    volumes:
+      - ./plugins/help-center-mcp:/app
+
+volumes:
+  db_data:
+  wp_data:

@@ -1,0 +1,26 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"40px","bottom":"72px"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group" style="padding-top:40px;padding-bottom:72px">
+	<!-- wp:query-title {"type":"search"} /-->
+
+	<!-- wp:search {"label":"Search the help center","showLabel":false,"placeholder":"Search for answers","buttonText":"Search","className":"fh-search fh-search--inline"} /-->
+
+	<!-- wp:query {"queryId":4,"query":{"inherit":true},"className":"fh-article-list"} -->
+	<div class="wp-block-query fh-article-list">
+		<!-- wp:post-template -->
+			<!-- wp:post-title {"isLink":true,"level":2,"fontSize":"medium"} /-->
+			<!-- wp:post-excerpt {"textColor":"muted"} /-->
+		<!-- /wp:post-template -->
+
+		<!-- wp:query-no-results -->
+			<!-- wp:paragraph -->
+			<p>No articles match your search. Try a single keyword such as "refund" or "delivery", browse <a href="/help/">all articles</a>, or <a href="/contact/">contact our support team</a>.</p>
+			<!-- /wp:paragraph -->
+		<!-- /wp:query-no-results -->
+	</div>
+	<!-- /wp:query -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->
