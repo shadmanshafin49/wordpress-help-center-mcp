@@ -1,6 +1,6 @@
 /**
- * AI & MCP page: replays the recorded session, runs the live MCP console and, when the
- * site has an Anthropic API key, the live assistant. Data comes from showcase.php.
+ * AI & MCP page: replays the recorded session and runs the live MCP console. Data comes
+ * from showcase.php.
  */
 ( function () {
 	'use strict';
@@ -274,10 +274,6 @@
 		play.addEventListener( 'click', playSession );
 		controls.append( play );
 
-		if ( data.assistantUrl ) {
-			root.append( el( 'h3', 'hc-replay-title', 'Or replay a recorded session' ) );
-		}
-
 		root.append(
 			tabs,
 			controls,
@@ -371,61 +367,6 @@
 		observer.observe( root );
 	}
 
-	/** The live assistant: Claude answers through this site's MCP server, and every call is shown. */
-	function initAssistant( root ) {
-		if ( ! root || ! data.assistantUrl ) {
-			return;
-		}
-
-		const form = el( 'form', 'hc-ask' );
-		const examples = el( 'div', 'hc-examples' );
-		const transcript = el( 'div', 'hc-transcript' );
-
-		form.innerHTML =
-			'<input name="question" type="text" minlength="3" maxlength="300" required aria-label="Customer question" placeholder="Ask a customer question, for example: How do I return an item?">' +
-			'<button class="hc-button" type="submit">Ask Claude</button>';
-
-		const input = form.elements.question;
-		const button = form.querySelector( 'button' );
-
-		[ 'I was charged twice for one order', 'How long does shipping take?', 'Can I cancel my order?' ].forEach( ( question ) => {
-			const chip = el( 'button', 'hc-chip', question );
-			chip.type = 'button';
-			chip.addEventListener( 'click', () => {
-				input.value = question;
-				form.requestSubmit();
-			} );
-			examples.append( chip );
-		} );
-
-		form.addEventListener( 'submit', async ( event ) => {
-			event.preventDefault();
-
-			const pending = el( 'p', 'hc-pending', 'Claude is working…' );
-			transcript.replaceChildren( messageView( 'user', input.value ), pending );
-			button.disabled = true;
-
-			try {
-				const answer = await post( data.assistantUrl, { question: input.value } );
-				pending.remove();
-
-				for ( const exchange of answer.steps ) {
-					transcript.append( callView( exchange ) );
-					await wait( 250 );
-				}
-
-				transcript.append( messageView( 'assistant', answer.answer ), el( 'p', 'hc-muted hc-small', 'Answered live by ' + answer.model + '.' ) );
-			} catch ( error ) {
-				pending.replaceWith( el( 'p', 'hc-error', error.message ) );
-			} finally {
-				button.disabled = false;
-			}
-		} );
-
-		root.append( form, examples, transcript );
-	}
-
-	initAssistant( document.querySelector( '[data-hc-assistant]' ) );
 	initReplay( document.querySelector( '[data-hc-replay]' ) );
 	initConsole( document.querySelector( '[data-hc-console]' ) );
 } )();

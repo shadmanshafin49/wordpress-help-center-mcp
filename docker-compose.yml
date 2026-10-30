@@ -45,8 +45,6 @@ services:
       - "${HTTP_PORT:-8888}:80"
     environment:
       <<: *wordpress-env
-      # Optional: turns on the live "Ask the assistant" demo on the AI & MCP page.
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
     volumes:
       - wp_data:/var/www/html
       - ./plugins/help-center-mcp:/var/www/html/wp-content/plugins/help-center-mcp
@@ -71,14 +69,6 @@ services:
       - ./plugins/help-center-mcp:/var/www/html/wp-content/plugins/help-center-mcp
       - ./themes/fernhill:/var/www/html/wp-content/themes/fernhill
       - .:/project
-
-  # Optional PHP dependencies for the plugin: docker compose run --rm composer install
-  composer:
-    image: composer:2
-    profiles: ["cli"]
-    working_dir: /app
-    volumes:
-      - ./plugins/help-center-mcp:/app
 
 volumes:
   db_data:

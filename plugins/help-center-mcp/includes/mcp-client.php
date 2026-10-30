@@ -2,9 +2,9 @@
 /**
  * In-process MCP client: lets the website talk to its own MCP server.
  *
- * The AI & MCP page (showcase.php) and the live assistant (assistant.php) send real
- * JSON-RPC messages through the same REST route, permission checks and MCP Adapter
- * code that external clients reach over HTTP, only without the network round trip.
+ * The AI & MCP page (showcase.php) sends real JSON-RPC messages through the same REST
+ * route, permission checks and MCP Adapter code that external clients reach over HTTP,
+ * only without the network round trip.
  * Requests use the stateless 2026-07-28 revision, so there is no handshake or session.
  *
  * @package HelpCenterMcp

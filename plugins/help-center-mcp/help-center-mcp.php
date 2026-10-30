@@ -20,7 +20,6 @@ require_once __DIR__ . '/includes/abilities.php';
 require_once __DIR__ . '/includes/mcp-server.php';
 require_once __DIR__ . '/includes/mcp-client.php';
 require_once __DIR__ . '/includes/showcase.php';
-require_once __DIR__ . '/includes/assistant.php';
 
 // The post type adds new URLs (/help/...), so WordPress must rebuild its rewrite rules.
 register_activation_hook(

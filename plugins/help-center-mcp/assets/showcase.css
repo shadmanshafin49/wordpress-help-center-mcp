@@ -221,7 +221,7 @@
 	font-size: 0.88rem !important;
 }
 
-/* Recorded session and live assistant. */
+/* Recorded session. */
 .hc-tabs {
 	display: flex;
 	flex-wrap: wrap;
@@ -229,8 +229,7 @@
 	margin: 20px 0 12px;
 }
 
-.hc-tab,
-.hc-chip {
+.hc-tab {
 	padding: 7px 16px;
 	border: 1px solid var(--hc-line);
 	border-radius: 999px;
@@ -241,8 +240,7 @@
 	cursor: pointer;
 }
 
-.hc-tab:hover,
-.hc-chip:hover {
+.hc-tab:hover {
 	border-color: var(--hc-brand);
 }
 
@@ -377,11 +375,6 @@
 	margin: 0 12px 12px;
 }
 
-.hc-pending {
-	margin: 0;
-	color: var(--hc-muted);
-}
-
 /* Request and response panes. */
 .hc-exchange {
 	display: grid;
@@ -482,8 +475,7 @@
 }
 
 .hc-field select,
-.hc-field textarea,
-.hc-ask input {
+.hc-field textarea {
 	padding: 10px 12px;
 	border: 1px solid var(--hc-line);
 	border-radius: 10px;
@@ -526,30 +518,6 @@
 	border-radius: 12px;
 	background: #fdf3f1;
 	color: var(--hc-error);
-}
-
-/* Live assistant. */
-.hc-ask {
-	display: flex;
-	gap: 10px;
-}
-
-.hc-ask input {
-	flex: 1;
-	min-width: 0;
-	border-radius: 999px;
-	padding-inline: 18px;
-}
-
-.hc-examples {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	margin: 12px 0;
-}
-
-.hc-replay-title {
-	margin-top: 36px !important;
 }
 
 /* Safety list. */

@@ -5,7 +5,7 @@
  * [help_center_ai_showcase] renders the page body. The tool list is read live from the
  * MCP server, the recorded session replays a real Claude session against it, and the
  * console lets visitors send their own MCP requests (read-only tools only) through
- * mcp-client.php. With an Anthropic API key set, assistant.php adds a live assistant.
+ * mcp-client.php.
  *
  * @package HelpCenterMcp
  */
@@ -186,12 +186,7 @@ function help_center_ai_showcase_shortcode(): string {
 
 		<section class="hc-section" id="hc-session">
 			<h2><?php esc_html_e( 'Watch the assistant work', 'help-center-mcp' ); ?></h2>
-			<?php if ( help_center_assistant_enabled() ) : ?>
-				<p class="hc-muted"><?php esc_html_e( 'Ask a customer question and watch Claude answer it live through this site\'s MCP server, or replay a recorded session.', 'help-center-mcp' ); ?></p>
-				<div class="hc-assistant" data-hc-assistant></div>
-			<?php else : ?>
-				<p class="hc-muted"><?php esc_html_e( 'A recorded session: Claude answering two customer questions through this site\'s MCP server. Open any step to see the exact MCP messages.', 'help-center-mcp' ); ?></p>
-			<?php endif; ?>
+			<p class="hc-muted"><?php esc_html_e( 'A recorded session: Claude answering two customer questions through this site\'s MCP server. Open any step to see the exact MCP messages.', 'help-center-mcp' ); ?></p>
 			<div class="hc-replay" data-hc-replay></div>
 			<noscript><p><?php esc_html_e( 'The session replay needs JavaScript.', 'help-center-mcp' ); ?></p></noscript>
 		</section>
@@ -260,9 +255,8 @@ function help_center_enqueue_showcase_assets(): void {
 	$article = get_page_by_path( 'charged-twice', OBJECT, 'help_article' );
 
 	$data = array(
-		'consoleUrl'   => rest_url( 'help-center/v1/console' ),
-		'assistantUrl' => help_center_assistant_enabled() ? rest_url( 'help-center/v1/assistant' ) : '',
-		'presets'      => array(
+		'consoleUrl' => rest_url( 'help-center/v1/console' ),
+		'presets'    => array(
 			array(
 				'label'  => __( 'List the tools', 'help-center-mcp' ),
 				'note'   => __( 'What an assistant sees when it connects: each tool\'s name, description, JSON Schemas and annotations.', 'help-center-mcp' ),

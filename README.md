@@ -157,16 +157,6 @@ To show a "Read the code on GitHub" button, set the repository URL:
 docker compose run --rm cli wp option update help_center_github_url https://github.com/<you>/<repo>
 ```
 
-**Optional live assistant.** With an Anthropic API key, the page also lets visitors ask a question and watch Claude answer it through the MCP server: the plugin reads the tools and the answer prompt over MCP, gives Claude the read-only tools, and runs each tool call as `tools/call`. It uses the official Anthropic PHP SDK and `claude-opus-5-5` (change it with `HELP_CENTER_ASSISTANT_MODEL` in `wp-config.php`). A paid claude.ai plan doesn't include API access: create a key in the [Claude Console](https://platform.claude.com/), then:
-
-```bash
-docker compose run --rm composer install          # installs the SDK into plugins/help-center-mcp/vendor
-echo "ANTHROPIC_API_KEY=sk-ant-..." > .env         # git-ignored
-docker compose up -d                               # restarts WordPress with the key
-```
-
-Every question costs API credits and anyone who can open the page can ask, so the endpoint allows 5 questions per visitor per 10 minutes and 100 per day in total. Without a key, the page shows only the recorded session.
-
 ## Deployment
 
 WordPress needs a PHP server, a MySQL/MariaDB database and a disk that keeps its files. Serverless platforms such as Vercel or Netlify offer none of these, so they can't run this project. Any machine that runs Docker can.
@@ -180,7 +170,6 @@ Docker Compose reads its settings from a `.env` file next to `docker-compose.yml
 | `HTTP_PORT` | `8888` | The host port WordPress listens on. Use `127.0.0.1:8888` behind a reverse proxy. |
 | `WORDPRESS_DEBUG` | `1` | Set to `0` on a public site, so `wp-content/debug.log` isn't written. |
 | `WP_ENVIRONMENT_TYPE` | `local` | Set to `production` on a server with HTTPS. Keep `local` when tunnelling, so local MCP clients can still connect over `http://localhost`. |
-| `ANTHROPIC_API_KEY` | (empty) | Optional. Turns on the live assistant on the AI & MCP page. |
 
 After changing `.env`, run `docker compose up -d` and then the setup script again.
 
@@ -237,7 +226,6 @@ help.example.com {
 The WordPress Docker image trusts the proxy's `X-Forwarded-Proto` header, so WordPress knows the visitor used HTTPS.
 
 - **MCP clients:** the setup script writes a `.mcp.json` on the server with the public endpoint and the AI assistant's credentials. Copy it to the computer that runs your MCP client, and keep it private.
-- **Live assistant:** add `ANTHROPIC_API_KEY` to `.env`, then run `docker compose run --rm composer install` and `docker compose up -d`.
 - **Updates:** run `git pull`. The plugin and theme folders are mounted into the container, so changes go live straight away.
 - **Backups:** run `docker compose run --rm cli wp db export /project/backup.sql`.
 
@@ -246,32 +234,27 @@ The WordPress Docker image trusts the proxy's `X-Forwarded-Proto` header, so Wor
 The plugin works on any host with WordPress 6.9+ and PHP 8.1+:
 
 1. Install and activate the [MCP Adapter](https://github.com/WordPress/mcp-adapter/releases) from its release zip (*Plugins → Add New → Upload Plugin*).
-2. Zip `plugins/help-center-mcp` and upload it the same way. If you want the live assistant, include `vendor/`. Optionally, zip `themes/fernhill` and upload it under *Appearance → Themes*.
+2. Zip `plugins/help-center-mcp` and upload it the same way. Optionally, zip `themes/fernhill` and upload it under *Appearance → Themes*.
 3. Under *Settings → Permalinks*, choose *Post name*.
 4. Add content: run `wp eval-file setup/seed.php` if the host has WP-CLI, or write articles in wp-admin.
 5. Create an `ai-assistant` user with the **Contributor** role, and give it an application password under *Users → Profile*. MCP clients send `Authorization: Basic <base64 of ai-assistant:application-password>`.
-6. For the live assistant, add `define( 'HELP_CENTER_ANTHROPIC_API_KEY', 'sk-ant-...' );` to `wp-config.php`.
-
 ### Before you make it public
 
 - Use a strong admin password. This README publishes the default.
 - Turn debugging off (`WORDPRESS_DEBUG=0`). Otherwise anyone can download `wp-content/debug.log`.
-- If you set an API key, also set a monthly spend limit in the Claude Console. The rate limits keep costs down, but any visitor can spend your credits.
 
 ## Project structure
 
 ```text
 plugins/help-center-mcp/
 ├── help-center-mcp.php          Plugin header, bootstrap, activation hooks
-├── composer.json                Optional: the Anthropic PHP SDK for the live assistant
 ├── assets/                      Script, styles and recorded session for the AI & MCP page
 └── includes/
     ├── content-model.php        Help Article post type, Topic taxonomy, text ↔ block helpers
     ├── abilities.php            The abilities: schemas, permission checks, callbacks
     ├── mcp-server.php           Which abilities MCP clients see, and who may connect
     ├── mcp-client.php           In-process MCP client the website uses to call its own server
-    ├── showcase.php             The AI & MCP page: [help_center_ai_showcase], live console
-    └── assistant.php            Optional live assistant: Claude + the MCP server's tools
+    └── showcase.php             The AI & MCP page: [help_center_ai_showcase], live console
 themes/fernhill/                 Block theme: theme.json, templates, header/footer parts,
                                  topic cards, breadcrumbs and related articles
 setup/
